@@ -79,7 +79,12 @@ VALUES
 -- Establecer requisitos para el ciclo 5
 INSERT INTO requisitos (materia_id, requisito_id)
 VALUES
-    (20, 18), -- Sistemas Operativos requiere Arquitectura y Organización de Computadores
-    (21, 15); -- Introducción a la Inteligencia de Negocios requiere Arquitectura y Organización de Computadores
+    ('COMP_3011', 'COMP_2010'), -- Sistemas Operativos requiere Arquitectura y Organización de Computadores
+    ('SIST_3011', 'DRBD_2005'), -- Fundamentos de la ingenieria de Software requiere de Programacion Avanzada, Base de datos Avanzada y Prototipado
+	('SIST_3011', 'COMP_4011'), ('SIST_3011', 'DSOF_3036'),
+	('DSOF_3037', 'COMP_4011'), -- Ingenieria Web requiere de Programacion Avanzada
+	('COMP_3013', 'DRBD_2005'), -- Introduccion a la inteligencia de negocios requiere de Base de Datos Avanzada
+    ('FILO_1114', 'MATE_1103'), -- Estadistica y Probabilidad requiere de Fundamentos matematicos;
+	('COMP_3019', 'COMP_2012'); -- Practicum 2.1 requiere de Practicum 1.2;
 
 -- Continuar con los ciclos restantes de la Carrera de Computación y agregar más materias y requisitos
