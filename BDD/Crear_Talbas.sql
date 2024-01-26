@@ -9,6 +9,14 @@ CREATE TABLE materias_carrera_computacion (
     ciclo INT
 );
 
+CREATE TABLE materias_carrera_tecnologias_informacion (
+    codigo_materia VARCHAR(10) UNIQUE PRIMARY KEY,
+    nombre VARCHAR(255),
+    creditos INT,
+    horas INT,
+    ciclo INT
+);
+
 -- Tabla para Transformación Digital
 CREATE TABLE materias_carrera_transformacion_digital (
     codigo_materia VARCHAR(10) UNIQUE PRIMARY KEY,
@@ -47,4 +55,14 @@ CREATE TABLE historial_homologaciones (
     materia_destino VARCHAR(255),
     fecha_homologacion DATE,
     FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id_estudiante)
+);
+
+CREATE TABLE calificaciones (
+    id_calificacion INT AUTO_INCREMENT PRIMARY KEY,
+    id_estudiante INT,
+    codigo_materia VARCHAR(10),
+    nota INT,
+    ciclo INT,
+    FOREIGN KEY (id_estudiante) REFERENCES estudiantes(id_estudiante),
+    FOREIGN KEY (codigo_materia) REFERENCES materias_carrera_computacion(codigo_materia)
 );

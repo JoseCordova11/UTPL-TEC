@@ -1,84 +1,74 @@
 import mysql.connector
+from prettytable import PrettyTable
 
-class Estudiante:
-    def __init__(self, carrera, materias_aprobadas):
-        self.carrera = carrera
-        self.materias_aprobadas = set(materias_aprobadas)
-
-def obtener_equivalencias():
-    conexion = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="1234",
-        database="practicas_tec"
-    )
-    cursor = conexion.cursor(dictionary=True)
-
-    consulta = "SELECT materia_origen, materia_destino FROM equivalencias"
-    cursor.execute(consulta)
-    equivalencias = {row['materia_origen']: row['materia_destino'] for row in cursor.fetchall()}
-
-    cursor.close()
-    conexion.close()
-
-    return equivalencias
-
-def homologar(estudiante, equivalencias):
-    materias_homologadas = set()
-    for materia_aprobada in estudiante.materias_aprobadas:
-        if materia_aprobada in equivalencias:
-            materia_homologada = equivalencias[materia_aprobada]
-            materias_homologadas.add(materia_homologada)
-        else:
-            materias_homologadas.add(materia_aprobada)
-
-    return materias_homologadas
-
-def obtener_nombre_materias(carrera, codigos_materias):
-    conexion = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="1234",
-        database="practicas_tec"
-    )
-    cursor = conexion.cursor(dictionary=True)
-
-    consulta = f"SELECT codigo_materia, nombre FROM materias_carrera_{carrera}"
-    cursor.execute(consulta)
-    nombres_materias = {row['codigo_materia']: row['nombre'] for row in cursor.fetchall()}
-
-    cursor.close()
-    conexion.close()
-
-    nombres_aprobadas = [{'codigo': codigo, 'nombre': nombres_materias.get(codigo, 'No encontrado')} for codigo in codigos_materias]
-
-    return nombres_aprobadas
-
-# Simular el estudiante de computación con materias aprobadas
-estudiante_computacion = Estudiante(
-    carrera="computacion",
-    materias_aprobadas=[
-        'COMP_1075', 'MATE_1103', 'RELI_1105', 'DSOF_1067', 'COMP_1078', 'DSOF_2030',
-        'FISI_1039', 'MATE_1108', 'MATE_1101', 'DSOF_2029', 'DSOF_2034'
-    ]
+# Conectar a la base de datos
+conexion = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="1234",
+    database="practicas_tec"
 )
 
-# Obtener equivalencias desde la base de datos
-equivalencias = obtener_equivalencias()
+# Crear un cursor para ejecutar consultas
+cursor = conexion.cursor()
 
-# Homologar las materias del estudiante de computación a transformación digital
-materias_homologadas = homologar(estudiante_computacion, equivalencias)
+# Definir equivalencias entre materias de Computación y Transformación Digital
+equivalencias = [
+    ('DRBD_2005', 'DRBD_1011'),
+    ('DSOF_2034', 'DSOF_1066'),
+    ('RELI_1105', 'RELI_1106')
+]
 
-# Mostrar resultados con nombres y códigos de las materias
-print("Materias homologadas:")
-nombres_homologadas = obtener_nombre_materias("transformacion_digital", materias_homologadas)
-for materia in nombres_homologadas:
-    print(f"- {materia['codigo']}: {materia['nombre']}")
+# ID del estudiante simulado
+id_estudiante = 1105586426
 
-# Calcular materias restantes en la nueva carrera
-materias_restantes = set(estudiante_computacion.materias_aprobadas) - materias_homologadas
+# Obtener las calificaciones del estudiante con decimales y nombres de materias
+cursor.execute(f"SELECT c.codigo_materia, m.nombre, c.nota, c.ciclo FROM calificaciones c JOIN materias_carrera_computacion m ON c.codigo_materia = m.codigo_materia WHERE c.id_estudiante = {id_estudiante}")
+calificaciones = {(codigo, nombre): (float(nota), ciclo) for codigo, nombre, nota, ciclo in cursor.fetchall()}
 
-print("\nMaterias restantes en la nueva carrera:")
-nombres_restantes = obtener_nombre_materias("transformacion_digital", materias_restantes)
-for materia in nombres_restantes:
-    print(f"- {materia['codigo']}: {materia['nombre']}")
+# Función para homologar una materia
+def homologar_materia(materia):
+    for equivalencia in equivalencias:
+        if materia == equivalencia[0]:
+            return equivalencia[1]
+        elif materia == equivalencia[1]:
+            return equivalencia[0]
+    return materia
+
+# Obtener materias aprobadas en la carrera de origen
+materias_aprobadas_origen = {(codigo, nombre): (nota, ciclo) for (codigo, nombre), (nota, ciclo) in calificaciones.items() if nota >= 7}
+
+# Homologar las materias aprobadas a la nueva carrera
+materias_homologadas_destino = {homologar_materia(codigo): (nota, ciclo) for (codigo, nombre), (nota, ciclo) in materias_aprobadas_origen.items() if homologar_materia(codigo) != codigo}
+
+# Identificar materias no homologadas
+materias_no_homologadas = {(codigo, nombre): (nota, ciclo) for (codigo, nombre), (nota, ciclo) in materias_aprobadas_origen.items() if (codigo, nombre) not in materias_homologadas_destino}
+
+# Consultar la malla de la carrera de origen (Computación)
+cursor.execute("SELECT codigo_materia, nombre, ciclo FROM materias_carrera_computacion")
+materias_carrera_origen = {(codigo, nombre): (nombre, ciclo) for codigo, nombre, ciclo in cursor.fetchall()}
+
+# Obtener ciclos únicos de la carrera de destino (Transformación Digital)
+ciclos_destino = set(ciclo for (codigo, nombre), (nombre, ciclo) in materias_carrera_origen.items() if homologar_materia(codigo) not in materias_homologadas_destino)
+
+# Mostrar resultados con PrettyTable
+def print_pretty_table(title, headers, data):
+    table = PrettyTable()
+    table.title = title
+    table.field_names = headers
+    for row in data:
+        table.add_row(row)
+    print(table)
+
+print_pretty_table("Materias Aprobadas en la Carrera de Origen (Computación)", ["Código", "Nombre", "Nota", "Ciclo"], [(codigo, nombre, nota, ciclo) for (codigo, nombre), (nota, ciclo) in materias_aprobadas_origen.items()])
+print_pretty_table("Materias Homologadas en la Carrera de Destino (Transformación Digital)", ["Código", "Nombre", "Nota", "Ciclo"], [(codigo, materias_carrera_origen.get((codigo, ''), ('', ''))[0], nota, ciclo) for codigo, (nota, ciclo) in materias_homologadas_destino.items()])
+print_pretty_table("Materias No Homologadas", ["Código", "Nombre", "Nota", "Ciclo"], [(codigo, nombre, nota, ciclo) for (codigo, nombre), (nota, ciclo) in materias_no_homologadas.items()])
+# Obtener ciclos únicos de la carrera de origen (Computación)
+ciclos_origen = set(ciclo for (codigo, nombre), (nombre, ciclo) in materias_carrera_origen.items())
+
+# Mostrar materias faltantes en la nueva carrera (Transformación Digital)
+print_pretty_table("Materias Faltantes en la Nueva Carrera (Transformación Digital)", ["Ciclo", "Código", "Nombre"], [(ciclo_origen, codigo, nombre) for ciclo_origen in sorted(ciclos_origen) for (codigo, nombre), (_, _) in materias_carrera_origen.items() if homologar_materia(codigo) not in materias_homologadas_destino])
+
+# Cerrar la conexión a la base de datos
+cursor.close()
+conexion.close()
