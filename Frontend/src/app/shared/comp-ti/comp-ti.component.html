@@ -6,32 +6,51 @@
 
 <section class="tabla-carrera">
     <h3>Tecnologias de la información</h3>
-    <table class="tabla-informacion-carrera">
+    <!-- 
+            <table class="tabla-informacion-carrera">
         <thead>
             <tr>
                 <th>Nombre de la Materia</th>
                 <th>Estado</th>
-                <th>Nivel de Créditos</th>
+                <th>Número de Créditos</th>
+                <th>Ciclo</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Utiliza ngFor para iterar sobre la lista de asignaturas -->
-            <tr *ngFor="let asignatura of user">
-                <td>{{ asignatura.nombre_asignatura }}</td>
-                <td class="homologacion-posible"
-                    *ngIf="existeHomologacion(asignatura.codigo_asignatura); else noHomologar">
-                    Posible Homologar
-                </td>
-                <ng-template #noHomologar>
-                    <td class="homologacion-no-posible">
-                        No es posible homologar
-                    </td>
-                </ng-template>
-                <td>{{ asignatura.creditos }}</td>
-
-            </tr>
-        </tbody>
+    <tr *ngFor="let asignatura of user">
+        <td>{{ asignatura.nombre_asignatura }}</td>
+        <td class="homologacion-posible" *ngIf="existeHomologacion(asignatura.codigo_asignatura); else noHomologar">
+            Posible Homologar
+        </td>
+        <ng-template #noHomologar>
+            <td class="homologacion-no-posible">
+                No es posible homologar
+            </td>
+        </ng-template>
+        <td>{{ asignatura.creditos }}</td>
+        <td>{{ asignatura.ciclo }}</td>
+    </tr>
+    </tbody>
     </table>
+    -->
+    <div class="contenedor-ciclos">
+        <div *ngFor="let ciclo of getCiclosUnicos()" class="ciclo-container">
+            <div class="asignaturas-container">
+                <h2 class="center">Ciclo {{ ciclo }}</h2>
+                <div *ngFor="let asignatura of user | filterByCiclo:ciclo" class="caja-asignatura">
+                    <div class="parte-superior"
+                        [ngClass]="{'homologacion-posible': existeHomologacion(asignatura.codigo_asignatura), 'homologacion-no-posible': !existeHomologacion(asignatura.codigo_asignatura)}">
+                        <div class="creditos">{{ asignatura.creditos }} créditos</div>
+                    </div>
+                    <div class="parte-inferior">
+                        <div class="nombre-asignatura">{{ asignatura.nombre_asignatura }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 </section>
 <section class="tabla-creditos">
@@ -45,7 +64,11 @@
                 </tr>
                 <tr>
                     <td>Créditos Pendientes</td>
-                    <td>{{135 - creditosActuales}}</td>
+                    <td>{{getCreditosFaltantes(creditosActuales)}}</td>
+                </tr>
+                <tr>
+                    <td>Ciclo</td>
+                    <td>{{getCicloEstimado(creditosActuales)}}</td>
                 </tr>
             </tbody>
         </table>
@@ -60,7 +83,11 @@
                 </tr>
                 <tr>
                     <td>Créditos Pendientes</td>
-                    <td>{{135 - creditosHomologados}}</td>
+                    <td>{{getCreditosFaltantes(creditosHomologados)}}</td>
+                </tr>
+                <tr>
+                    <td>Ciclo Estimado</td>
+                    <td>{{getCicloEstimado(creditosHomologados)}}</td>
                 </tr>
             </tbody>
         </table>

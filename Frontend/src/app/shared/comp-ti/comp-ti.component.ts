@@ -2,13 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from 'src/app/services/user.service';
+import { FilterByCicloPipe } from "../../pipes/filter-by-ciclo.pipe";
 
 @Component({
   selector: 'app-comp-ti',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './comp-ti.component.html',
-  styleUrl: './comp-ti.component.css'
+  styleUrl: './comp-ti.component.css',
+  imports: [CommonModule, FilterByCicloPipe]
 })
 export class CompTiComponent {
   user: any = {};
@@ -66,5 +67,34 @@ export class CompTiComponent {
     }
 
     return false;
+  }
+
+  getCiclosUnicos(): number[] {
+    const ciclosUnicos = new Set<number>();
+    this.user.forEach((asignatura: { ciclo: number; }) => ciclosUnicos.add(asignatura.ciclo));
+    return Array.from(ciclosUnicos);
+  }
+
+
+  // Supongamos que tienes la siguiente variable en tu componente
+  totalCreditosCarrera: number = 135;
+  creditosPorCiclo: number = 15;
+  getCicloEstimado(creditosHomologados: number): number {
+    // Calcula los créditos faltantes
+    const creditosFaltantes = Math.max(0, this.totalCreditosCarrera - creditosHomologados);
+
+    // Calcula el ciclo estimado
+    const cicloEstimado = Math.ceil((this.totalCreditosCarrera - creditosFaltantes) / this.creditosPorCiclo);
+
+    // Asegúrate de que el ciclo estimado no sea menor que 1
+    return Math.max(cicloEstimado, 1);
+  }
+
+  getCreditosFaltantes(creditosHomologados: number): number {
+    // Calcula los créditos faltantes
+    const creditosFaltantes = Math.max(0, this.totalCreditosCarrera - creditosHomologados);
+
+    // Asegúrate de que el ciclo estimado no sea menor que 1
+    return Math.max(creditosFaltantes, 1);
   }
 }

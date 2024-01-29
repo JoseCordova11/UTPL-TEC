@@ -90,3 +90,66 @@ html {
     padding: 10px;
     text-align: left;
 }
+
+.contenedor-ciclos {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ciclo-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.asignaturas-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    text-align: center;
+}
+
+.center{
+    text-align: center;
+    align-items: center;
+}
+
+.caja-asignatura {
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    padding: 0px;
+    width: 185px;
+    display: flex;
+    flex-direction: column;
+}
+
+.parte-superior {
+    background-color: #f0f0f0;
+    padding: 8px;
+}
+
+.parte-inferior {
+    padding: 8px;
+}
+
+.creditos {
+    font-weight: bold;
+}
+
+.estado {
+    font-weight: bold;
+}
+
+.homologacion-posible {
+    background-color: rgb(105, 174, 105);
+    color: black;
+}
+
+.homologacion-no-posible {
+    background-color: rgb(189, 117, 117);
+    color: black;
+}
+
+.nombre-asignatura {
+    font-weight: bold;
+}
