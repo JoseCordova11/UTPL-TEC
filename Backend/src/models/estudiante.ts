@@ -16,12 +16,12 @@ const Estudiante = sequelize.define('Estudiante', {
         allowNull: false
     },
     email: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(55),
         unique: true,
         allowNull: false
     },
     password: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(100),
         allowNull: false
     }
 }, {

@@ -1,0 +1,95 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  height: 100%;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  background-color: #014270;
+}
+
+.imglogo {
+  padding-left: 2em;
+}
+
+.imglogo img {
+  max-width: 90px;
+}
+
+.imguser {
+  display: flex;
+  align-items: center;
+  padding-right: 2em;
+}
+
+.imguser img {
+  max-width: 37px;
+}
+
+.username {
+  color: #fff;
+  margin-left: 10px;
+}
+
+.contenido {
+  display: flex;
+}
+
+.imagen-grande img {
+  width: 70%;
+  max-width: 100%;
+  height: auto;
+}
+
+.contenedormenu {
+  width: 100%;
+  padding-top: 7em;
+  padding-left: 5em;
+  padding-right: 5em;
+}
+
+
+.menu-login h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  padding-bottom: 2em;
+}
+
+.menu-login form {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-login label {
+  margin-bottom: 7px;
+  font-size: 14px;
+}
+
+.menu-login input {
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+.menu-login p {
+  color: #fff;
+}
+
+.menu-login button {
+  background-color: #014270;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  width: 35%;
+  align-self: flex-start;
+}

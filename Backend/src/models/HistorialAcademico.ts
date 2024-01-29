@@ -17,7 +17,7 @@ const HistorialAcademico = sequelize.define('HistorialAcademico', {
         allowNull: false
     },
     calificacion: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.DOUBLE,
         allowNull: true
     }, estado: {
         type: DataTypes.STRING(20),

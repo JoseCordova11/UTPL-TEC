@@ -9,6 +9,8 @@ import MallaCurricularComputacion from "./MallaCurricularComputacion";
 import MallaCurricularTI from "./MallaCurricularTI";
 import HistorialAcademico from "./HistorialAcademico";
 import Equivalencia from "./Equivalencia";
+import Equivalencia_computacion_ti from "./Equivalencia_computacion_ti";
+import Equivalencia_ti_computacion from "./Equivalencia_ti_computacion";
 
 
 export class Server {
@@ -49,6 +51,8 @@ export class Server {
             await Carrera.sync({ alter: true });
             await Estudiante.sync({ alter: true });
             await Equivalencia.sync({ alter: true });
+            await Equivalencia_computacion_ti.sync({ alter: true });
+            await Equivalencia_ti_computacion.sync({ alter: true });
             await MallaCurricularComputacion.sync({ alter: true });
             await MallaCurricularTI.sync({ alter: true });
             await HistorialAcademico.sync({ alter: true });

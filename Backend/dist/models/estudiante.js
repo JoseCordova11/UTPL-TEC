@@ -20,12 +20,12 @@ const Estudiante = connection_1.default.define('Estudiante', {
         allowNull: false
     },
     email: {
-        type: sequelize_1.DataTypes.STRING(255),
+        type: sequelize_1.DataTypes.STRING(55),
         unique: true,
         allowNull: false
     },
     password: {
-        type: sequelize_1.DataTypes.STRING(255),
+        type: sequelize_1.DataTypes.STRING(100),
         allowNull: false
     }
 }, {

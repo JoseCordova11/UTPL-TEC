@@ -1,0 +1,159 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body,
+html {
+    height: 100%;
+}
+
+
+.encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    background-color: #014270;
+    padding: 0 20px;
+}
+
+.imglogo {
+    padding-left: 2em;
+}
+
+.imglogo img {
+    max-width: 90px;
+}
+
+.imguser {
+    display: flex;
+    align-items: center;
+    padding-right: 2em;
+}
+
+.imguser img {
+    max-width: 37px;
+}
+
+.username {
+    color: #fff;
+    margin-left: 10px;
+}
+
+.contenido {
+    align-items: center;
+    padding: 30px;
+    width: 100%;
+
+}
+
+.subtitulo {
+    margin-bottom: 20px;
+
+}
+
+.tarjetas-container {
+    display: flex;
+    overflow-x: auto;
+}
+
+.tarjeta {
+    width: 375px;
+    height: 450px;
+    margin-right: 40px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+}
+
+.imagen img {
+    width: 100%;
+    height: 50%;
+    object-fit: cover;
+}
+
+.informacion {
+    text-align: center;
+    padding: 10px;
+}
+
+.informacion h3 {
+    margin-bottom: 10px;
+    color: #014270;
+    font-size: medium;
+    font-style: normal;
+    padding-bottom: 5px;
+}
+
+.informacion ul {
+    list-style-type: none;
+    padding: 1em;
+}
+
+.informacion li {
+    margin-bottom: 10px;
+}
+
+.button {
+    padding-top: 10px;
+    background-color: #014270;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 80px;
+}
+
+.button a {
+    text-decoration: none;
+    color: white;
+}
+
+.btn {
+    padding-top: 10px;
+    background-color: #014270;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 90px;
+}
+
+.ContenedorInfo {
+    display: flex;
+    justify-content: space-between;
+    margin: 2em;
+}
+
+.imagenusuario img {
+    width: 250px;
+    height: 250px;
+    padding: 40px;
+}
+
+.InfoEstudiante {
+    margin-top: 30px;
+    padding: 2em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex-grow: 1;
+}
+
+.InfoEstudiante h3 {
+    margin-bottom: 10px;
+}
+
+.tabla-informacion {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.tabla-informacion th,
+.tabla-informacion td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}

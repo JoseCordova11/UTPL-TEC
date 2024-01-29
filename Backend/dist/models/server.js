@@ -23,6 +23,8 @@ const MallaCurricularComputacion_1 = __importDefault(require("./MallaCurricularC
 const MallaCurricularTI_1 = __importDefault(require("./MallaCurricularTI"));
 const HistorialAcademico_1 = __importDefault(require("./HistorialAcademico"));
 const Equivalencia_1 = __importDefault(require("./Equivalencia"));
+const Equivalencia_computacion_ti_1 = __importDefault(require("./Equivalencia_computacion_ti"));
+const Equivalencia_ti_computacion_1 = __importDefault(require("./Equivalencia_ti_computacion"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -55,6 +57,8 @@ class Server {
                 yield carrera_1.default.sync({ alter: true });
                 yield estudiante_1.default.sync({ alter: true });
                 yield Equivalencia_1.default.sync({ alter: true });
+                yield Equivalencia_computacion_ti_1.default.sync({ alter: true });
+                yield Equivalencia_ti_computacion_1.default.sync({ alter: true });
                 yield MallaCurricularComputacion_1.default.sync({ alter: true });
                 yield MallaCurricularTI_1.default.sync({ alter: true });
                 yield HistorialAcademico_1.default.sync({ alter: true });

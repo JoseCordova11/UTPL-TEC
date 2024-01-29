@@ -8,29 +8,267 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const HistorialAcademico_1 = __importDefault(require("../models/HistorialAcademico"));
-// La función para obtener el historial académico basado en el token JWT
-const obtenerHistorialAcademico = (token) => __awaiter(void 0, void 0, void 0, function* () {
+exports.obtenerMallaTI = exports.homologacionCompTI = exports.obtenerAsignaturasEquivalenciaTIComp = exports.obtenerAsignaturasEquivalenciaCompTI = exports.obtenerHistorialAcademico = void 0;
+const mysql = require('mysql2');
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '1234',
+    database: 'sistema-homologador',
+});
+const jwt = require('jsonwebtoken');
+const obtenerHistorialAcademico = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // Decodifica el token para obtener la información del usuario
-        const decodedToken = jsonwebtoken_1.default.verify(token, '123'); // Reemplaza 'tu_secreto_jwt' con tu clave secreta
-        // Extrae el estudianteID del token decodificado
-        const estudianteID = decodedToken;
-        // Busca el historial académico basado en el estudianteID
-        const historial = yield HistorialAcademico_1.default.findAll({
-            where: { estudianteID },
-        });
-        return historial;
+        let cedula = '';
+        if (req.headers.authorization) {
+            const token = req.headers.authorization.split(' ')[1];
+            try {
+                const decodedToken = jwt.verify(token, process.env.SECRET_KEY || '123');
+                cedula = decodedToken.estudianteID;
+            }
+            catch (error) {
+                console.log();
+                console.error('Error al decodificar el token:', error);
+            }
+        }
+        try {
+            connection.connect();
+            const sql = `
+            SELECT A.codigo AS CodigoAsignatura,
+            A.nombre AS NombreAsignatura,
+            A.creditos AS NumeroCreditos,
+            H.calificacion AS Calificacion,
+            H.estado AS Estado,
+            MC.ciclo AS Ciclo
+     FROM Asignaturas A
+     JOIN HistorialAcademico H ON A.codigo = H.asignaturaCodigo
+     JOIN MallaCurricularComputacion MC ON A.codigo = MC.asignaturaCodigo
+     WHERE H.estudianteID = ? AND H.estado = 'Aprobada';
+     
+        `;
+            connection.query(sql, [cedula], (error, results, fields) => {
+                if (error) {
+                    console.error('Error al ejecutar la consulta:', error);
+                    throw new Error('No se pudo obtener las asignaturas de equivalencia.');
+                }
+                res.json(results);
+            });
+        }
+        catch (error) {
+            console.error('Error al obtener las asignaturas de equivalencia:', error);
+            throw new Error('No se pudo obtener las asignaturas de equivalencia.');
+        }
     }
     catch (error) {
-        // Maneja errores, por ejemplo, si el token no es válido
         console.error('Error al obtener historial académico:', error);
         throw new Error('No se pudo obtener el historial académico.');
     }
 });
-exports.default = obtenerHistorialAcademico;
+exports.obtenerHistorialAcademico = obtenerHistorialAcademico;
+const obtenerAsignaturasEquivalenciaCompTI = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let cedula = '';
+    if (req.headers.authorization) {
+        const token = req.headers.authorization.split(' ')[1];
+        try {
+            const decodedToken = jwt.verify(token, process.env.SECRET_KEY || '123');
+            cedula = decodedToken.estudianteID;
+        }
+        catch (error) {
+            console.log();
+            console.error('Error al decodificar el token:', error);
+        }
+    }
+    try {
+        connection.connect();
+        const sql = `
+        SELECT 
+            E.asignaturaOrigenCodigo AS codigo_origen,
+            A1.nombre AS nombre_origen,
+            E.asignaturaDestinoCodigo AS codigo_destino,
+            A2.nombre AS nombre_destino
+        FROM 
+            equivalencia_computacion_ti E
+        JOIN 
+            Asignaturas A1 ON E.asignaturaOrigenCodigo = A1.codigo
+        JOIN 
+            Asignaturas A2 ON E.asignaturaDestinoCodigo = A2.codigo
+        WHERE 
+            E.asignaturaOrigenCodigo IN (
+                SELECT asignaturaCodigo 
+                FROM HistorialAcademico 
+                WHERE estado = 'Aprobada' AND estudianteID = ?
+            );
+    `;
+        connection.query(sql, [cedula], (error, results, fields) => {
+            if (error) {
+                console.error('Error al ejecutar la consulta:', error);
+                throw new Error('No se pudo obtener las asignaturas de equivalencia.');
+            }
+            res.json(results);
+        });
+    }
+    catch (error) {
+        console.error('Error al obtener las asignaturas de equivalencia:', error);
+        throw new Error('No se pudo obtener las asignaturas de equivalencia.');
+    }
+});
+exports.obtenerAsignaturasEquivalenciaCompTI = obtenerAsignaturasEquivalenciaCompTI;
+const obtenerAsignaturasEquivalenciaTIComp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let cedula = '';
+    if (req.headers.authorization) {
+        const token = req.headers.authorization.split(' ')[1];
+        try {
+            const decodedToken = jwt.verify(token, process.env.SECRET_KEY || '123');
+            cedula = decodedToken.estudianteID;
+        }
+        catch (error) {
+            console.log();
+            console.error('Error al decodificar el token:', error);
+        }
+    }
+    try {
+        connection.connect();
+        const sql = `
+        SELECT 
+            E.asignaturaOrigenCodigo AS codigo_origen,
+            A1.nombre AS nombre_origen,
+            E.asignaturaDestinoCodigo AS codigo_destino,
+            A2.nombre AS nombre_destino
+        FROM 
+            equivalencia_computacion_ti E
+        JOIN 
+            Asignaturas A1 ON E.asignaturaOrigenCodigo = A1.codigo
+        JOIN 
+            Asignaturas A2 ON E.asignaturaDestinoCodigo = A2.codigo
+        WHERE 
+            E.asignaturaOrigenCodigo IN (
+                SELECT asignaturaCodigo 
+                FROM HistorialAcademico 
+                WHERE estado = 'Aprobada' AND estudianteID = ?
+            );
+    `;
+        connection.query(sql, [cedula], (error, results, fields) => {
+            if (error) {
+                console.error('Error al ejecutar la consulta:', error);
+                throw new Error('No se pudo obtener las asignaturas de equivalencia.');
+            }
+            res.json(results);
+        });
+    }
+    catch (error) {
+        console.error('Error al obtener las asignaturas de equivalencia:', error);
+        throw new Error('No se pudo obtener las asignaturas de equivalencia.');
+    }
+});
+exports.obtenerAsignaturasEquivalenciaTIComp = obtenerAsignaturasEquivalenciaTIComp;
+const homologacionCompTI = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let cedula = '';
+    if (req.headers.authorization) {
+        const token = req.headers.authorization.split(' ')[1];
+        try {
+            const decodedToken = jwt.verify(token, process.env.SECRET_KEY || '123');
+            cedula = decodedToken.estudianteID;
+        }
+        catch (error) {
+            console.log();
+            console.error('Error al decodificar el token:', error);
+        }
+    }
+    try {
+        connection.connect();
+        const sql = `
+        SELECT 
+        E.asignaturaOrigenCodigo AS codigo_origen,
+        A1.nombre AS nombre_origen,
+        A1.creditos AS creditos_origen,
+        A1.cargaHoraria AS carga_horaria_origen,
+        COALESCE(MC1.ciclo, 0) AS ciclo_origen,
+        E.asignaturaDestinoCodigo AS codigo_destino,
+        A2.nombre AS nombre_destino,
+        A2.creditos AS creditos_destino,
+        A2.cargaHoraria AS carga_horaria_destino,
+        COALESCE(MC2.ciclo, 0) AS ciclo_destino,
+        EC.idCarrera,
+        C.nombre AS nombre_carrera,
+        ES.nombre AS nombre_estudiante,
+        ES.apellido AS apellido_estudiante,
+        ES.email AS email_estudiante
+    FROM 
+        equivalencia_computacion_ti E
+    JOIN 
+        Asignaturas A1 ON E.asignaturaOrigenCodigo = A1.codigo
+    JOIN 
+        Asignaturas A2 ON E.asignaturaDestinoCodigo = A2.codigo
+    JOIN 
+        HistorialAcademico HA ON E.asignaturaOrigenCodigo = HA.asignaturaCodigo
+    JOIN 
+        Estudiantes ES ON HA.estudianteID = ES.idEstudiante
+    JOIN 
+        EstudianteCarrera EC ON ES.idEstudiante = EC.idEstudiante
+    JOIN 
+        Carreras C ON EC.idCarrera = C.id
+    LEFT JOIN 
+        MallaCurricularComputacion MC1 ON A1.codigo = MC1.asignaturaCodigo AND EC.idCarrera = MC1.carreraID
+    LEFT JOIN (
+        SELECT asignaturaCodigo, ciclo
+        FROM MallaCurricularTI
+    ) MC2 ON A2.codigo = MC2.asignaturaCodigo
+    WHERE 
+        HA.estado = 'Aprobada' AND ES.idEstudiante = ?; 
+    `;
+        connection.query(sql, [cedula], (error, results, fields) => {
+            if (error) {
+                console.error('Error al ejecutar la consulta:', error);
+                throw new Error('No se pudo obtener las asignaturas de equivalencia.');
+            }
+            res.json(results);
+        });
+    }
+    catch (error) {
+        console.error('Error al obtener las asignaturas de equivalencia:', error);
+        throw new Error('No se pudo obtener las asignaturas de equivalencia.');
+    }
+});
+exports.homologacionCompTI = homologacionCompTI;
+const obtenerMallaTI = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let cedula = '';
+    if (req.headers.authorization) {
+        const token = req.headers.authorization.split(' ')[1];
+        try {
+            const decodedToken = jwt.verify(token, process.env.SECRET_KEY || '123');
+            cedula = decodedToken.estudianteID;
+        }
+        catch (error) {
+            console.log();
+            console.error('Error al decodificar el token:', error);
+        }
+    }
+    try {
+        connection.connect();
+        const sql = `
+        SELECT
+        A.codigo AS codigo_asignatura,
+            A.nombre AS nombre_asignatura,
+                A.creditos,
+                A.cargaHoraria,
+                MTI.ciclo
+        FROM 
+            Asignaturas A
+        JOIN 
+            MallaCurricularTI MTI ON A.codigo = MTI.asignaturaCodigo;
+    `;
+        connection.query(sql, [cedula], (error, results, fields) => {
+            if (error) {
+                console.error('Error al ejecutar la consulta:', error);
+                throw new Error('No se pudo obtener las asignaturas de equivalencia.');
+            }
+            res.json(results);
+        });
+    }
+    catch (error) {
+        console.error('Error al obtener las asignaturas de equivalencia:', error);
+        throw new Error('No se pudo obtener las asignaturas de equivalencia.');
+    }
+});
+exports.obtenerMallaTI = obtenerMallaTI;
