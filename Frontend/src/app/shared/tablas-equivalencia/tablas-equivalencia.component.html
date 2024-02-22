@@ -1,54 +1,34 @@
-<header class="encabezado">
-    <div class="imglogo">
-        <img src="assets/img/LogoUTPL.png" alt="Logo UTPL">
-    </div>
-    <div class="imguser">
-        <a href="/perfil" class="username">Ver perfil</a>
-    </div>
-</header>
-
-<h2 class="mx-4 my-4">Resultado de consulta homologaciónn</h2>
-
 <section class="tabla-creditos">
-
     <div class="tabla-carrera-actual">
-        <h3>Computación</h3>
+        <h3>{{ carreraActual }}</h3>
         <table class="tabla-creditos-carrera-actual">
             <tbody>
                 <tr>
-                    <td>Total de Créditos Aprobados</td>
-                    <td>{{creditosActuales}}</td>
+                    <td>Total de Créditos</td>
+                    <td>{{totalCreditosCarrera}}</td>
                 </tr>
                 <tr>
-                    <td>Créditos Pendientes</td>
-                    <td>{{getCreditosFaltantes(creditosActuales)}}</td>
-                </tr>
-                <tr>
-                    <td>Ciclo</td>
-                    <td>{{getCicloEstimado(creditosActuales)}}</td>
+                    <td>Total de Ciclos</td>
+                    <td>9</td>
                 </tr>
             </tbody>
         </table>
     </div>
     <div class="tabla-carrera-homologar">
-        <h3>Tecnologías de la Información</h3>
+        <h3>{{ carreraHomologar }}</h3>
         <table class="tabla-creditos-carrera-homologar">
             <tbody>
+                <tr>
+                    <td>Total de Créditos</td>
+                    <td>{{totalCreditosCarreraDestino}}</td>
+                </tr>
                 <tr>
                     <td>Total de Créditos Homologados</td>
                     <td>{{creditosHomologados}}</td>
                 </tr>
                 <tr>
-                    <td>Total de Créditos NO Homologados</td>
-                    <td>{{creditosActuales - creditosHomologados}}</td>
-                </tr>
-                <tr>
                     <td>Créditos Pendientes</td>
-                    <td>{{getCreditosFaltantes(creditosHomologados)}}</td>
-                </tr>
-                <tr>
-                    <td>Ciclo Estimado</td>
-                    <td>{{getCicloEstimado(creditosHomologados)}}</td>
+                    <td>{{totalCreditosCarreraDestino - creditosHomologados}}</td>
                 </tr>
             </tbody>
         </table>
@@ -72,7 +52,4 @@
             </div>
         </div>
     </div>
-
-
-
 </section>

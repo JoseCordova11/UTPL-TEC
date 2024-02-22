@@ -7,11 +7,11 @@ import { FilterByCicloPipe } from "../../pipes/filter-by-ciclo.pipe";
 @Component({
   selector: 'app-comp-ti',
   standalone: true,
-  templateUrl: './comp-ti.component.html',
-  styleUrl: './comp-ti.component.css',
+  templateUrl: './comp-tde.component.html',
+  styleUrl: './comp-tde.component.css',
   imports: [CommonModule, FilterByCicloPipe]
 })
-export class CompTiComponent {
+export class CompTdeComponent {
   user: any = {};
   actual: any = {};
   historial: any = {};
@@ -24,7 +24,7 @@ export class CompTiComponent {
     private notificationService: NotificationService,
   ) { }
   ngOnInit(): void {
-    this.userService.getMallaTI().subscribe(
+    this.userService.getMallaTDE().subscribe(
       (user) => {
         this.user = user;
       },
@@ -33,9 +33,10 @@ export class CompTiComponent {
       }
     );
 
-    this.userService.get_homologacion_comp_ti().subscribe(
+    this.userService.get_homologacion_comp_tde().subscribe(
       (user) => {
         this.historial = user;
+        console.log(this.historial)
         for (let i = 0; i < this.historial.length; i++) {
           this.numeroCreditos += this.historial[i].NumeroCreditos
           this.creditosHomologados += this.historial[i].creditos_destino;

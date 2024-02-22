@@ -20,6 +20,7 @@ export class PerfilComponent implements OnInit {
   cedulaUsuario: string | null = null;
   numeroCreditos: Number = 0
   userLoginOn: boolean = true;
+  carrera: any;
   constructor(
     private userService: UserService,
     private notificationService: NotificationService,
@@ -30,36 +31,63 @@ export class PerfilComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getCedulaUsuario().subscribe(cedula => {
       this.cedulaUsuario = cedula;
+      console.log(this.cedulaUsuario)
     });
 
-    this.userService.getUserInfo().subscribe(
+    this.userService.get_homologacion_comp_ti().subscribe(
       (user) => {
         this.user = user;
         console.log(this.user)
+
+        if (this.user.length <= 0) {
+          this.userService.get_homologacion_tde_comp().subscribe(
+            (user) => {
+              this.user = user;
+              console.log(user)
+              this.carrera = this.user[0].nombre_carrera
+              this.userService.getHistorial(this.carrera).subscribe(
+                (user) => {
+                  this.historial = user;
+                  for (let i = 0; i < this.historial.length; i++) {
+                    this.numeroCreditos += this.historial[i].NumeroCreditos
+                  }
+                },
+                (error) => {
+                  this.notificationService.notify('Algo salió mal, intente más tarde.', 2000);
+                }
+              );
+            },
+            (error) => {
+              this.notificationService.notify('Algo salió mal, intente más tarde.', 2000);
+            }
+          );
+        }
+
+        this.carrera = this.user[0].nombre_carrera
+        this.userService.getHistorial(this.carrera).subscribe(
+          (user) => {
+            this.historial = user;
+            for (let i = 0; i < this.historial.length; i++) {
+              this.numeroCreditos += this.historial[i].NumeroCreditos
+            }
+          },
+          (error) => {
+            this.notificationService.notify('Algo salió mal, intente más tarde.', 2000);
+          }
+        );
       },
       (error) => {
         this.notificationService.notify('Algo salió mal, intente más tarde.', 2000);
       }
     );
 
-    this.userService.getHistorial().subscribe(
-      (user) => {
-        this.historial = user;
-        for (let i = 0; i < this.historial.length; i++) {
-          this.numeroCreditos += this.historial[i].NumeroCreditos
-        }
-      },
-      (error) => {
-        this.notificationService.notify('Algo salió mal, intente más tarde.', 2000);
-      }
-    );
   }
 
   logout() {
     this._authService.logout();
     this.userLoginOn = this._authService.isLoggedIn();
 
-    this.router.navigate(['/inicio'])
+    this.router.navigate(['/login'])
   }
 
 }

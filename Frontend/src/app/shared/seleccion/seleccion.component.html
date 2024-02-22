@@ -11,59 +11,175 @@
     <div class="subtitulo">
         <h2>Selecciona tu nueva carrera</h2>
     </div>
-    <section class="tarjetas-container">
-        <div class="tarjeta">
-            <div class="imagen">
-                <img src="assets/img/Carrera1.png" alt="Carrera 1">
-            </div>
-            <div class="informacion">
-                <h3>Comunicacion Estrategica y Marketing Digital</h3>
-                <ul>
-                    <li>Modalidad: Distancia</li>
-                    <li>Duración: 2 años</li>
-                </ul>
-                <button type="button" class="btn" disabled>Consultar</button>
-            </div>
-        </div>
-
-        <div class="tarjeta">
-            <div class="imagen">
-                <img src="assets/img/Carrera2.png" alt="Carrera 2">
-            </div>
-            <div class="informacion">
-                <h3>Tranformación Digital de Empresas</h3>
-                <ul>
-                    <li>Modalidad: Distancia</li>
-                    <li>Duración: 2 años</li>
-                </ul>
-                <button class="button">Consultar</button>
-            </div>
-        </div>
-        <div class="tarjeta">
-            <div class="imagen">
-                <img src="assets/img/Carrera4.png" alt="Carrera 1">
-            </div>
-            <div class="informacion">
-                <h3>Tecnologias de la Informacion</h3>
-                <ul>
-                    <li>Modalidad: Distancia</li>
-                    <li>Duración: 4 años</li>
-                </ul>
-                <button class="button"> <a href="/comp-ti">Consultar</a></button>
-            </div>
-        </div>
-        <div class="tarjeta">
-            <div class="imagen">
-                <img src="assets/img/Carrera33.png" alt="Carrera 1">
-            </div>
-            <div class="informacion">
-                <h3>Computacion</h3>
-                <ul>
-                    <li>Modalidad: Presencial</li>
-                    <li>Duración: 4 años</li>
+    <div *ngIf="user[0].nombre_carrera === 'Computación'" class="tarjetas-container">
+        <section class="tarjetas-container">
+            <div class="tarjeta">
+                <div class="imagen">
+                    <img src="assets/img/Carrera1.png" alt="Carrera 1">
+                </div>
+                <div class="informacion">
+                    <h3>Comunicacion Estrategica y Marketing Digital</h3>
+                    <ul>
+                        <li>Modalidad: Distancia</li>
+                        <li>Duración: 2 años</li>
+                    </ul>
                     <button type="button" class="btn" disabled>Consultar</button>
-                </ul>
+                </div>
             </div>
-        </div>
-    </section>
+    
+            <div class="tarjeta">
+                <div class="imagen">
+                    <img src="assets/img/Carrera2.png" alt="Carrera 2">
+                </div>
+                <div class="informacion">
+                    <h3>Tranformación Digital de Empresas</h3>
+                    <ul>
+                        <li>Modalidad: Distancia</li>
+                        <li>Duración: 2 años</li>
+                    </ul>
+                    <button class="button"> <a href="/comp-tde">Consultar</a></button>
+                </div>
+            </div>
+            <div class="tarjeta">
+                <div class="imagen">
+                    <img src="assets/img/Carrera4.png" alt="Carrera 1">
+                </div>
+                <div class="informacion">
+                    <h3>Tecnologias de la Informacion</h3>
+                    <ul>
+                        <li>Modalidad: Distancia</li>
+                        <li>Duración: 4 años</li>
+                    </ul>
+                    <button class="button"> <a href="/comp-ti">Consultar</a></button>
+                </div>
+            </div>
+            <div class="tarjeta">
+                <div class="imagen">
+                    <img src="assets/img/Carrera33.png" alt="Carrera 1">
+                </div>
+                <div class="informacion">
+                    <h3>Computacion</h3>
+                    <ul>
+                        <li>Modalidad: Presencial</li>
+                        <li>Duración: 4 años</li>
+                        <button type="button" class="btn" disabled>Consultar</button>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div *ngIf="user[0].nombre_carrera === 'Transformación Digital de Empresas'" class="tarjetas-container">
+        <section class="tarjetas-container">
+            <div class="tarjeta">
+                <div class="imagen">
+                    <img src="assets/img/Carrera1.png" alt="Carrera 1">
+                </div>
+                <div class="informacion">
+                    <h3>Comunicacion Estrategica y Marketing Digital</h3>
+                    <ul>
+                        <li>Modalidad: Distancia</li>
+                        <li>Duración: 2 años</li>
+                    </ul>
+                    <button type="button" class="btn" disabled>Consultar</button>
+                </div>
+            </div>
+    
+            <div class="tarjeta">
+                <div class="imagen">
+                    <img src="assets/img/Carrera2.png" alt="Carrera 2">
+                </div>
+                <div class="informacion">
+                    <h3>Tranformación Digital de Empresas</h3>
+                    <ul>
+                        <li>Modalidad: Distancia</li>
+                        <li>Duración: 2 años</li>
+                    </ul>
+                    <button type="button" class="btn" disabled>Consultar</button>
+                </div>
+            </div>
+            <div class="tarjeta">
+                <div class="imagen">
+                    <img src="assets/img/Carrera4.png" alt="Carrera 1">
+                </div>
+                <div class="informacion">
+                    <h3>Tecnologias de la Informacion</h3>
+                    <ul>
+                        <li>Modalidad: Distancia</li>
+                        <li>Duración: 4 años</li>
+                    </ul>
+                    <button class="button"> <a href="/tde-ti">Consultar</a></button>
+                </div>
+            </div>
+            <div class="tarjeta">
+                <div class="imagen">
+                    <img src="assets/img/Carrera33.png" alt="Carrera 1">
+                </div>
+                <div class="informacion">
+                    <h3>Computacion</h3>
+                    <ul>
+                        <li>Modalidad: Presencial</li>
+                        <li>Duración: 4 años</li>
+                        <button class="button"> <a href="/tde-comp">Consultar</a></button>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div *ngIf="user[0].nombre_carrera === 'Tecnologías de la Información'" class="tarjetas-container">
+        <section class="tarjetas-container">
+            <div class="tarjeta">
+                <div class="imagen">
+                    <img src="assets/img/Carrera1.png" alt="Carrera 1">
+                </div>
+                <div class="informacion">
+                    <h3>Comunicacion Estrategica y Marketing Digital</h3>
+                    <ul>
+                        <li>Modalidad: Distancia</li>
+                        <li>Duración: 2 años</li>
+                    </ul>
+                    <button type="button" class="btn" disabled>Consultar</button>
+                </div>
+            </div>
+    
+            <div class="tarjeta">
+                <div class="imagen">
+                    <img src="assets/img/Carrera2.png" alt="Carrera 2">
+                </div>
+                <div class="informacion">
+                    <h3>Tranformación Digital de Empresas</h3>
+                    <ul>
+                        <li>Modalidad: Distancia</li>
+                        <li>Duración: 2 años</li>
+                    </ul>
+                    <button class="button"> <a href="/ti-tde">Consultar</a></button>
+                </div>
+            </div>
+            <div class="tarjeta">
+                <div class="imagen">
+                    <img src="assets/img/Carrera4.png" alt="Carrera 1">
+                </div>
+                <div class="informacion">
+                    <h3>Tecnologias de la Informacion</h3>
+                    <ul>
+                        <li>Modalidad: Distancia</li>
+                        <li>Duración: 4 años</li>
+                    </ul>
+                    <button type="button" class="btn" disabled>Consultar</button>
+                </div>
+            </div>
+            <div class="tarjeta">
+                <div class="imagen">
+                    <img src="assets/img/Carrera33.png" alt="Carrera 1">
+                </div>
+                <div class="informacion">
+                    <h3>Computacion</h3>
+                    <ul>
+                        <li>Modalidad: Presencial</li>
+                        <li>Duración: 4 años</li>
+                        <button class="button"> <a href="/ti-comp">Consultar</a></button>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
 </section>

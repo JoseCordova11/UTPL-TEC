@@ -11,7 +11,6 @@ import { Estudiante } from '../interfaces/estudiante';
 })
 
 export class UserService {
-
   private myAppUrl: string
   private myApiUrl: string
 
@@ -48,13 +47,67 @@ export class UserService {
     return JSON.parse(atob(base64));
   }
 
-  getHistorial(): Observable<User> {
-    return this.http.get<User>(`${this.myAppUrl}${this.myApiUrl}/historial-academico`);
+  getHistorial(carrera: string): Observable<User> {
+    if(carrera == "Tecnologías de la Información"){
+      return this.http.get<User>(`${this.myAppUrl}${this.myApiUrl}/historial-academico_ti`);
+    } else if(carrera == "Computación"){
+      return this.http.get<User>(`${this.myAppUrl}${this.myApiUrl}/historial-academico_comp`);
+    } else{
+      return this.http.get<User>(`${this.myAppUrl}${this.myApiUrl}/historial-academico_tde`);
+    }
+    
   }
-  getUserInfo(): Observable<Estudiante> {
-    return this.http.get<Estudiante>(`${this.myAppUrl}${this.myApiUrl}/homologacion`);
+
+  get_homologacion_comp_ti(): Observable<Estudiante> {
+    return this.http.get<Estudiante>(`${this.myAppUrl}${this.myApiUrl}/homologacion_comp_ti`);
+  }
+
+  get_homologacion_comp_tde(): Observable<Estudiante> {
+    return this.http.get<Estudiante>(`${this.myAppUrl}${this.myApiUrl}/homologacion_comp_tde`);
+  }
+
+  get_homologacion_ti_comp(): Observable<Estudiante> {
+    return this.http.get<Estudiante>(`${this.myAppUrl}${this.myApiUrl}/homologacion_ti_comp`);
+  }
+
+  get_homologacion_ti_tde(): Observable<Estudiante> {
+    return this.http.get<Estudiante>(`${this.myAppUrl}${this.myApiUrl}/homologacion_ti_tde`);
+  }
+
+  get_homologacion_tde_comp(): Observable<Estudiante> {
+    return this.http.get<Estudiante>(`${this.myAppUrl}${this.myApiUrl}/homologacion_tde_comp`);
+  }
+
+  get_homologacion_tde_ti(): Observable<Estudiante> {
+    return this.http.get<Estudiante>(`${this.myAppUrl}${this.myApiUrl}/homologacion_tde_ti`);
+  }
+
+  getMallaComp(): Observable<Estudiante> {
+    return this.http.get<Estudiante>(`${this.myAppUrl}${this.myApiUrl}/mallaComp`);
   }
   getMallaTI(): Observable<Estudiante> {
     return this.http.get<Estudiante>(`${this.myAppUrl}${this.myApiUrl}/mallaTI`);
+  }
+  getMallaTDE(): Observable<Estudiante> {
+    return this.http.get<Estudiante>(`${this.myAppUrl}${this.myApiUrl}/mallaTDE`);
+  }
+
+  get_equivalencia_comp_ti(): Observable<Estudiante> {
+    return this.http.get<Estudiante>(`${this.myAppUrl}${this.myApiUrl}/comp_ti`);
+  }
+  get_equivalencia_comp_tde(): Observable<Estudiante> {
+    return this.http.get<Estudiante>(`${this.myAppUrl}${this.myApiUrl}/comp_tde`);
+  }
+  get_equivalencia_ti_tde(): Observable<Estudiante> {
+    return this.http.get<Estudiante>(`${this.myAppUrl}${this.myApiUrl}/ti_tde`);
+  }
+  get_equivalencia_ti_comp(): Observable<Estudiante> {
+    return this.http.get<Estudiante>(`${this.myAppUrl}${this.myApiUrl}/ti_comp`);
+  }
+  get_equivalencia_tde_ti(): Observable<Estudiante> {
+    return this.http.get<Estudiante>(`${this.myAppUrl}${this.myApiUrl}/tde_ti`);
+  }
+  get_equivalencia_tde_comp(): Observable<Estudiante> {
+    return this.http.get<Estudiante>(`${this.myAppUrl}${this.myApiUrl}/tde_comp`);
   }
 }

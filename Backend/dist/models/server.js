@@ -16,15 +16,6 @@ exports.Server = void 0;
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const user_1 = __importDefault(require("../routes/user"));
-const asignatura_1 = __importDefault(require("./asignatura"));
-const carrera_1 = __importDefault(require("./carrera"));
-const estudiante_1 = __importDefault(require("./estudiante"));
-const MallaCurricularComputacion_1 = __importDefault(require("./MallaCurricularComputacion"));
-const MallaCurricularTI_1 = __importDefault(require("./MallaCurricularTI"));
-const HistorialAcademico_1 = __importDefault(require("./HistorialAcademico"));
-const Equivalencia_1 = __importDefault(require("./Equivalencia"));
-const Equivalencia_computacion_ti_1 = __importDefault(require("./Equivalencia_computacion_ti"));
-const Equivalencia_ti_computacion_1 = __importDefault(require("./Equivalencia_ti_computacion"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -53,15 +44,18 @@ class Server {
     dbConnect() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield asignatura_1.default.sync({ alter: true });
-                yield carrera_1.default.sync({ alter: true });
-                yield estudiante_1.default.sync({ alter: true });
-                yield Equivalencia_1.default.sync({ alter: true });
-                yield Equivalencia_computacion_ti_1.default.sync({ alter: true });
-                yield Equivalencia_ti_computacion_1.default.sync({ alter: true });
-                yield MallaCurricularComputacion_1.default.sync({ alter: true });
-                yield MallaCurricularTI_1.default.sync({ alter: true });
-                yield HistorialAcademico_1.default.sync({ alter: true });
+                /*
+                await Asignatura.sync({ alter: true });
+                await Carrera.sync({ alter: true });
+                await Estudiante.sync({ alter: true });
+                await Equivalencia.sync({ alter: true });
+                await Equivalencia_computacion_ti.sync({ alter: true });
+                await Equivalencia_ti_computacion.sync({ alter: true });
+                await MallaCurricularComputacion.sync({ alter: true });
+                await MallaCurricularTI.sync({ alter: true });
+                await MallaCurricularTDE.sync({ alter: true });
+                await HistorialAcademico.sync({ alter: true });
+                */
                 console.log("Connect");
             }
             catch (error) {

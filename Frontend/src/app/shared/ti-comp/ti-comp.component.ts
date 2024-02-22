@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FilterByCicloPipe } from 'src/app/pipes/filter-by-ciclo.pipe';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from 'src/app/services/user.service';
-import { FilterByCicloPipe } from "../../pipes/filter-by-ciclo.pipe";
 
 @Component({
-  selector: 'app-comp-ti',
+  selector: 'app-ti-comp',
   standalone: true,
-  templateUrl: './comp-ti.component.html',
-  styleUrl: './comp-ti.component.css',
-  imports: [CommonModule, FilterByCicloPipe]
+  imports: [CommonModule, FilterByCicloPipe],
+  templateUrl: './ti-comp.component.html',
+  styleUrl: './ti-comp.component.css'
 })
-export class CompTiComponent {
+export class TiCompComponent {
   user: any = {};
   actual: any = {};
   historial: any = {};
@@ -24,7 +24,7 @@ export class CompTiComponent {
     private notificationService: NotificationService,
   ) { }
   ngOnInit(): void {
-    this.userService.getMallaTI().subscribe(
+    this.userService.getMallaComp().subscribe(
       (user) => {
         this.user = user;
       },
@@ -33,9 +33,10 @@ export class CompTiComponent {
       }
     );
 
-    this.userService.get_homologacion_comp_ti().subscribe(
+    this.userService.get_homologacion_ti_comp().subscribe(
       (user) => {
         this.historial = user;
+        console.log(this.historial)
         for (let i = 0; i < this.historial.length; i++) {
           this.numeroCreditos += this.historial[i].NumeroCreditos
           this.creditosHomologados += this.historial[i].creditos_destino;
@@ -46,7 +47,7 @@ export class CompTiComponent {
       }
     );
 
-    this.userService.getHistorial("Computación").subscribe(
+    this.userService.getHistorial("Tecnologías de la Información").subscribe(
       (user) => {
         this.actual = user;
         for (let i = 0; i < this.actual.length; i++) {

@@ -2,17 +2,13 @@
     <div class="imglogo">
         <img src="assets/img/LogoUTPL.png" alt="Logo UTPL">
     </div>
-    <div class="imguser">
-        <a href="/perfil" class="username">Ver perfil</a>
-    </div>
 </header>
-
 <h2 class="mx-4 my-4">Resultado de consulta homologaciónn</h2>
 
 <section class="tabla-creditos">
 
     <div class="tabla-carrera-actual">
-        <h3>Computación</h3>
+        <h3>Carrera Actual</h3>
         <table class="tabla-creditos-carrera-actual">
             <tbody>
                 <tr>
@@ -31,7 +27,7 @@
         </table>
     </div>
     <div class="tabla-carrera-homologar">
-        <h3>Tecnologías de la Información</h3>
+        <h3>Carrera a Homologar</h3>
         <table class="tabla-creditos-carrera-homologar">
             <tbody>
                 <tr>
@@ -44,7 +40,7 @@
                 </tr>
                 <tr>
                     <td>Créditos Pendientes</td>
-                    <td>{{getCreditosFaltantes(creditosHomologados)}}</td>
+                    <td>{{64 - creditosHomologados}}</td>
                 </tr>
                 <tr>
                     <td>Ciclo Estimado</td>
@@ -56,6 +52,33 @@
 </section>
 <section class="tabla-carrera">
     <h3>Malla curricular</h3>
+    <!-- 
+            <table class="tabla-informacion-carrera">
+        <thead>
+            <tr>
+                <th>Nombre de la Materia</th>
+                <th>Estado</th>
+                <th>Número de Créditos</th>
+                <th>Ciclo</th>
+            </tr>
+        </thead>
+        <tbody>
+    <tr *ngFor="let asignatura of user">
+        <td>{{ asignatura.nombre_asignatura }}</td>
+        <td class="homologacion-posible" *ngIf="existeHomologacion(asignatura.codigo_asignatura); else noHomologar">
+            Posible Homologar
+        </td>
+        <ng-template #noHomologar>
+            <td class="homologacion-no-posible">
+                No es posible homologar
+            </td>
+        </ng-template>
+        <td>{{ asignatura.creditos }}</td>
+        <td>{{ asignatura.ciclo }}</td>
+    </tr>
+    </tbody>
+    </table>
+    -->
     <div class="contenedor-ciclos">
         <div *ngFor="let ciclo of getCiclosUnicos()" class="ciclo-container">
             <div class="asignaturas-container">

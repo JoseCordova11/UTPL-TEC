@@ -11,6 +11,7 @@ import HistorialAcademico from "./HistorialAcademico";
 import Equivalencia from "./Equivalencia";
 import Equivalencia_computacion_ti from "./Equivalencia_computacion_ti";
 import Equivalencia_ti_computacion from "./Equivalencia_ti_computacion";
+import MallaCurricularTDE from "./MallaCurricularTDE";
 
 
 export class Server {
@@ -47,6 +48,7 @@ export class Server {
 
     async dbConnect() {
         try {
+            /*
             await Asignatura.sync({ alter: true });
             await Carrera.sync({ alter: true });
             await Estudiante.sync({ alter: true });
@@ -55,7 +57,9 @@ export class Server {
             await Equivalencia_ti_computacion.sync({ alter: true });
             await MallaCurricularComputacion.sync({ alter: true });
             await MallaCurricularTI.sync({ alter: true });
+            await MallaCurricularTDE.sync({ alter: true });
             await HistorialAcademico.sync({ alter: true });
+            */
             console.log("Connect");
         } catch (error) {
             console.log("Unable to connect: ", error);
